@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ethan Ochoa — Desarrollador Android & IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Variables ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:        #1E3A5F;
+      --navy-dark:   #132740;
+      --navy-light:  #2A4F80;
+      --blue:        #2563EB;
+      --blue-light:  #EFF6FF;
+      --blue-mid:    #BFDBFE;
+      --text:        #1E293B;
+      --text-sec:    #64748B;
+      --bg:          #FFFFFF;
+      --bg-sec:      #F8FAFC;
+      --bg-ter:      #F1F5F9;
+      --border:      #E2E8F0;
+      --shadow-sm:   0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+      --shadow-md:   0 4px 16px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.04);
+      --shadow-lg:   0 10px 40px rgba(0,0,0,.10), 0 4px 12px rgba(0,0,0,.06);
+      --radius:      12px;
+      --radius-lg:   20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── NAV ───────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      height: 64px;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .nav-logo {
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--navy);
+      letter-spacing: -0.5px;
+    }
+    .nav-logo span { color: var(--blue); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-sec);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--navy); }
+
+    .btn-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 20px;
+      background: var(--navy);
+      color: #fff !important;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: background .2s, transform .15s;
+    }
+    .btn-nav:hover { background: var(--navy-light); transform: translateY(-1px); }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--navy);
+      border-radius: 2px;
+      transition: all .3s;
+    }
+
+    /* ── HERO ──────────────────────────────────────────────────────────── */
+    #inicio {
+      padding: 140px 0 100px;
+      background: linear-gradient(160deg, #F8FAFC 0%, #EFF6FF 50%, #F8FAFC 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #inicio::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(37,99,235,.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: var(--blue-light);
+      border: 1px solid var(--blue-mid);
+      color: var(--blue);
+      border-radius: 99px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .hero-tag::before {
+      content: '';
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--blue);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: .5; transform: scale(1.2); }
+    }
+
+    .hero-name {
+      font-size: clamp(36px, 5vw, 52px);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+    }
+
+    .hero-name span { color: var(--blue); }
+
+    .hero-subtitle {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text-sec);
+      margin-bottom: 20px;
+    }
+
+    .hero-desc {
+      font-size: 15px;
+      color: var(--text-sec);
+      line-height: 1.75;
+      max-width: 480px;
+      margin-bottom: 36px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      background: var(--navy);
+      color: #fff;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all .2s;
+      box-shadow: 0 4px 14px rgba(30,58,95,.25);
+    }
+    .btn-primary:hover { background: var(--navy-light); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(30,58,95,.30); }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      border: 2px solid var(--navy);
+      color: var(--navy);
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all .2s;
+    }
+    .btn-outline:hover { background: var(--navy); color: #fff; transform: translateY(-2px); }
+
+    /* Phone mockup */
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .phone-wrap {
+      position: relative;
+      filter: drop-shadow(0 24px 60px rgba(30,58,95,.20));
+    }
+
+    .phone {
+      width: 220px;
+      height: 440px;
+      background: var(--navy-dark);
+      border-radius: 36px;
+      border: 6px solid #2A4F80;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .phone-notch {
+      width: 90px; height: 22px;
+      background: var(--navy-dark);
+      border-radius: 0 0 14px 14px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .phone-screen {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, #132740 0%, #1a2e48 40%, #0f2035 100%);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 8px 8px;
+    }
+
+    .app-logo-text {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+    .app-logo-text span { color: #60A5FA; }
+
+    .app-avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563EB, #7C3AED);
+    }
+
+    .app-card {
+      background: rgba(255,255,255,.07);
+      border-radius: 14px;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .app-card-title {
+      font-size: 9px;
+      font-weight: 700;
+      color: rgba(255,255,255,.5);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .app-card-value {
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .app-card-sub { font-size: 9px; color: rgba(255,255,255,.4); margin-top: 2px; }
+
+    .app-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .app-stat {
+      background: rgba(255,255,255,.05);
+      border-radius: 10px;
+      padding: 8px 10px;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .app-stat-label { font-size: 8px; color: rgba(255,255,255,.4); }
+    .app-stat-val { font-size: 14px; font-weight: 700; color: #60A5FA; }
+
+    .app-btn-mock {
+      background: linear-gradient(135deg, #2563EB, #1D4ED8);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      font-size: 9px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.3px;
+      margin-top: 4px;
+    }
+
+    /* Stats bar */
+    .hero-stats {
+      display: flex;
+      gap: 0;
+      margin-top: 48px;
+      background: #fff;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .stat-item {
+      flex: 1;
+      padding: 20px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+
+    .stat-num {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label { font-size: 12px; color: var(--text-sec); font-weight: 500; }
+
+    /* ── SECCIÓN GENÉRICA ──────────────────────────────────────────────── */
+    section { padding: 90px 0; }
+
+    .section-label {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: var(--text-sec);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 56px;
+    }
+
+    /* ── PROYECTOS ─────────────────────────────────────────────────────── */
+    #proyectos { background: var(--bg-sec); }
+
+    /* Featured card */
+    .project-featured {
+      background: var(--bg);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      margin-bottom: 28px;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .project-featured:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,.12); }
+
+    .pf-body { padding: 48px; }
+
+    .pf-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .badge-featured { background: #FEF3C7; color: #92400E; }
+    .badge-beta { background: #D1FAE5; color: #065F46; }
+    .badge-ai { background: #EDE9FE; color: #4C1D95; }
+
+    .pf-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .pf-subtitle {
+      font-size: 14px;
+      color: var(--blue);
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .pf-desc {
+      font-size: 15px;
+      color: var(--text-sec);
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .feature-icon {
+      flex-shrink: 0;
+      width: 20px; height: 20px;
+      border-radius: 6px;
+      background: var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      margin-top: 1px;
+    }
+
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+
+    .tech-tag {
+      padding: 5px 12px;
+      background: var(--bg-ter);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .pf-links { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all .2s;
+    }
+
+    .link-btn-primary { background: var(--navy); color: #fff; }
+    .link-btn-primary:hover { background: var(--navy-light); transform: translateY(-1px); }
+    .link-btn-ghost { border: 1.5px solid var(--border); color: var(--text); }
+    .link-btn-ghost:hover { border-color: var(--navy); color: var(--navy); transform: translateY(-1px); }
+
+    /* Mockup right panel */
+    .pf-visual {
+      background: linear-gradient(160deg, var(--navy) 0%, var(--navy-light) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pf-visual::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.04);
+    }
+
+    .pf-visual::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; left: -40px;
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.04);
+    }
+
+    .mini-phone {
+      width: 170px;
+      height: 330px;
+      background: rgba(255,255,255,.08);
+      border-radius: 28px;
+      border: 4px solid rgba(255,255,255,.15);
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    .mini-phone-screen {
+      padding: 10px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      height: 100%;
+    }
+
+    .mp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 6px 4px;
+    }
+
+    .mp-logo {
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .mp-logo span { color: #60A5FA; }
+    .mp-dot {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #60A5FA, #818CF8);
+    }
+
+    .mp-card {
+      background: rgba(255,255,255,.08);
+      border-radius: 10px;
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .mp-label { font-size: 7px; color: rgba(255,255,255,.4); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .mp-val { font-size: 16px; font-weight: 800; color: #fff; }
+    .mp-sub { font-size: 7px; color: rgba(255,255,255,.35); }
+
+    .mp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+
+    .mp-mini {
+      background: rgba(255,255,255,.06);
+      border-radius: 8px;
+      padding: 7px;
+      border: 1px solid rgba(255,255,255,.05);
+    }
+    .mp-mini-label { font-size: 6.5px; color: rgba(255,255,255,.35); }
+    .mp-mini-val { font-size: 12px; font-weight: 700; color: #93C5FD; }
+
+    .mp-progress {
+      background: rgba(255,255,255,.06);
+      border-radius: 8px;
+      padding: 8px;
+    }
+    .mp-progress-label { font-size: 7px; color: rgba(255,255,255,.4); margin-bottom: 4px; }
+    .mp-bar-bg { background: rgba(255,255,255,.1); border-radius: 4px; height: 4px; overflow: hidden; }
+    .mp-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #60A5FA, #818CF8); }
+
+    .mp-cta {
+      background: linear-gradient(135deg, #2563EB, #4F46E5);
+      border-radius: 8px;
+      padding: 9px;
+      text-align: center;
+      font-size: 8px;
+      font-weight: 700;
+      color: #fff;
+      margin-top: auto;
+    }
+
+    /* Projects grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .project-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+
+    .pc-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .pc-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .pc-desc {
+      font-size: 14px;
+      color: var(--text-sec);
+      line-height: 1.7;
+      flex: 1;
+      margin-bottom: 20px;
+    }
+
+    .pc-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+    .pc-features li {
+      font-size: 13px;
+      color: var(--text);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .pc-features li::before {
+      content: '›';
+      color: var(--blue);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── HABILIDADES ───────────────────────────────────────────────────── */
+    #habilidades { background: var(--bg); }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .skill-category {
+      background: var(--bg-sec);
+      border-radius: var(--radius);
+      padding: 28px;
+      border: 1px solid var(--border);
+    }
+
+    .skill-cat-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .skill-cat-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .skill-cat-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    .skill-pill {
+      padding: 6px 14px;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      transition: all .2s;
+    }
+    .skill-pill:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-light); }
+
+    .skill-pill.highlight {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #fff;
+    }
+
+    /* ── SOBRE MÍ ──────────────────────────────────────────────────────── */
+    #sobre-mi { background: var(--navy); padding: 70px 0; }
+
+    .sobre-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .sobre-text .section-label { color: #93C5FD; }
+    .sobre-text .section-title { color: #fff; }
+    .sobre-text .section-desc { color: rgba(255,255,255,.65); margin-bottom: 0; }
+
+    .sobre-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .sobre-card {
+      background: rgba(255,255,255,.07);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      transition: background .2s;
+    }
+    .sobre-card:hover { background: rgba(255,255,255,.11); }
+
+    .sobre-card-num {
+      font-size: 32px;
+      font-weight: 800;
+      color: #60A5FA;
+      margin-bottom: 4px;
+    }
+
+    .sobre-card-label { font-size: 12px; color: rgba(255,255,255,.55); font-weight: 500; }
+
+    /* ── CONTACTO ──────────────────────────────────────────────────────── */
+    #contacto { background: var(--bg-sec); }
+
+    .contact-inner { text-align: center; }
+    .contact-inner .section-desc { margin: 0 auto 48px; }
+
+    .contact-cards {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .contact-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 28px;
+      box-shadow: var(--shadow-sm);
+      transition: all .25s;
+      min-width: 220px;
+    }
+    .contact-card:hover { border-color: var(--navy); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+    .contact-card-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .contact-card-text { text-align: left; }
+    .contact-card-label { font-size: 11px; color: var(--text-sec); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .contact-card-value { font-size: 14px; font-weight: 600; color: var(--navy); }
+
+    /* ── FOOTER ────────────────────────────────────────────────────────── */
+    footer {
+      background: var(--navy-dark);
+      color: rgba(255,255,255,.5);
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 13px;
+    }
+    footer span { color: rgba(255,255,255,.8); }
+
+    /* ── ANIMATIONS ────────────────────────────────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    .delay-1 { transition-delay: .1s; }
+    .delay-2 { transition-delay: .2s; }
+    .delay-3 { transition-delay: .3s; }
+    .delay-4 { transition-delay: .4s; }
+
+    /* ── RESPONSIVE ────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-visual { display: none; }
+      .hero-desc { margin: 0 auto 36px; }
+      .hero-btns { justify-content: center; }
+      .hero-stats { margin-top: 36px; }
+
+      .project-featured { grid-template-columns: 1fr; }
+      .pf-visual { min-height: 220px; }
+
+      .sobre-inner { grid-template-columns: 1fr; }
+      .sobre-cards { grid-template-columns: repeat(4, 1fr); }
+
+      .nav-links .hide-mobile { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      section { padding: 60px 0; }
+      .hero-stats { flex-wrap: wrap; }
+      .stat-item { flex: 1 0 45%; border-bottom: 1px solid var(--border); }
+      .stat-item:nth-child(2n) { border-right: none; }
+      .sobre-cards { grid-template-columns: 1fr 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .pf-body { padding: 28px; }
+      .nav-hamburger { display: flex; }
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 64px; left: 0; right: 0;
+        background: rgba(255,255,255,.98);
+        border-bottom: 1px solid var(--border);
+        padding: 20px 24px;
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ──────────────────────────────────────────────────────────── -->
+  <nav>
+    <div class="container nav-inner">
+      <div class="nav-logo">Ethan<span>.</span></div>
+      <div class="nav-links" id="navLinks">
+        <a href="#proyectos" class="hide-mobile">Proyectos</a>
+        <a href="#habilidades" class="hide-mobile">Habilidades</a>
+        <a href="#sobre-mi" class="hide-mobile">Sobre mí</a>
+        <a href="#contacto" class="hide-mobile">Contacto</a>
+        <a href="../CV-Ethan_Ochoa_Harvard.pdf" target="_blank" class="btn-nav">
+          ↓ Descargar CV
+        </a>
+      </div>
+      <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── HERO ─────────────────────────────────────────────────────────── -->
+  <section id="inicio">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="hero-tag">Disponible para pasantías · Android Developer</div>
+          <h1 class="hero-name">Ethan Daniel<br><span>Ochoa Carbajal</span></h1>
+          <p class="hero-subtitle">Desarrollador Android &amp; IA · ISC 8.º Semestre</p>
+          <p class="hero-desc">
+            Construyo aplicaciones móviles Android que combinan arquitectura sólida con
+            inteligencia artificial. Autor de Hipermeta — app de fitness y nutrición
+            con IA, en beta abierta y presentada en InnovaTecNM 2026.
+          </p>
+          <div class="hero-btns">
+            <a href="#proyectos" class="btn-primary">Ver proyectos →</a>
+            <a href="https://github.com/Ethan8a" target="_blank" rel="noopener" class="btn-outline">
+              ⌥ GitHub
+            </a>
+            <a href="https://www.linkedin.com/in/ethan-ochoa-2a6443341" target="_blank" rel="noopener" class="btn-outline">
+              in LinkedIn
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="phone-wrap">
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="app-header">
+                  <div class="app-logo-text">Hiper<span>meta</span></div>
+                  <div class="app-avatar"></div>
+                </div>
+                <div class="app-card">
+                  <div class="app-card-title">Tu plan hoy</div>
+                  <div class="app-card-value">Pecho + Tríceps</div>
+                  <div class="app-card-sub">8 ejercicios · 45 min estimado</div>
+                </div>
+                <div class="app-row">
+                  <div class="app-stat"><div class="app-stat-label">IMC</div><div class="app-stat-val">22.4</div></div>
+                  <div class="app-stat"><div class="app-stat-label">Racha</div><div class="app-stat-val">7 días</div></div>
+                </div>
+                <div class="app-card">
+                  <div class="app-card-title">Dieta de hoy · IA</div>
+                  <div class="app-card-value" style="font-size:15px">2,100 kcal</div>
+                  <div class="app-card-sub">Proteína 160g · Carbs 210g · Grasa 65g</div>
+                </div>
+                <div class="app-btn-mock">🤖 Generar rutina con IA</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="hero-stats fade-up">
+        <div class="stat-item">
+          <div class="stat-num">15+</div>
+          <div class="stat-label">Módulos funcionales</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">8.7</div>
+          <div class="stat-label">Promedio académico</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3+</div>
+          <div class="stat-label">Años programando</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">Beta</div>
+          <div class="stat-label">App con usuarios reales</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROYECTOS ─────────────────────────────────────────────────────── -->
+  <section id="proyectos">
+    <div class="container">
+      <div class="fade-up">
+        <div class="section-label">Proyectos</div>
+        <h2 class="section-title">Lo que he construido</h2>
+        <p class="section-desc">
+          Proyectos reales con código funcional, usuarios reales y tecnologías modernas.
+          Hipermeta es mi proyecto principal, desarrollado de forma íntegra y autónoma.
+        </p>
+      </div>
+
+      <!-- Featured: Hipermeta -->
+      <div class="project-featured fade-up">
+        <div class="pf-body">
+          <div class="pf-badges">
+            <span class="badge badge-featured">⭐ Proyecto Principal</span>
+            <span class="badge badge-beta">● Beta Abierta</span>
+            <span class="badge badge-ai">✦ IA Integrada</span>
+          </div>
+          <h3 class="pf-title">Hipermeta</h3>
+          <p class="pf-subtitle">Aplicación Android de Fitness &amp; Nutrición con Inteligencia Artificial</p>
+          <p class="pf-desc">
+            Plataforma móvil completa que combina entrenamiento, nutrición e IA.
+            Genera rutinas personalizadas según IMC y equipamiento, planea dietas
+            con macros reales, y tiene un feed social completo. Presentada en
+            InnovaTecNM 2026 (ITSTB) y actualmente en beta con testers externos.
+          </p>
+
+          <div class="features-grid">
+            <div class="feature-item">
+              <div class="feature-icon">🤖</div>
+              Rutinas con Google Gemini 2.5 Flash adaptadas por IMC, edad y lesiones
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🥗</div>
+              Planes de dieta IA con macros, recetas e imágenes reales
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">📱</div>
+              Feed social (likes, comentarios, historias, búsqueda)
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🔐</div>
+              Auth con Firebase (email + Google Sign-In)
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">📸</div>
+              Body Scan con Gemini Vision para análisis corporal
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🗺️</div>
+              Directorio de nutriólogos certificados con geolocalización
+            </div>
+          </div>
+
+          <div class="tech-tags">
+            <span class="tech-tag">Kotlin</span>
+            <span class="tech-tag">Android Studio</span>
+            <span class="tech-tag">Firebase</span>
+            <span class="tech-tag">Supabase</span>
+            <span class="tech-tag">Google Gemini AI</span>
+            <span class="tech-tag">MVVM</span>
+            <span class="tech-tag">Room</span>
+            <span class="tech-tag">Coroutines</span>
+            <span class="tech-tag">Material Design 3</span>
+          </div>
+
+          <div class="pf-links">
+            <a href="https://github.com/Ethan8a/hipermeta" target="_blank" class="link-btn link-btn-primary">
+              ⌥ Ver en GitHub
+            </a>
+            <a href="#contacto" class="link-btn link-btn-ghost">
+              Solicitar acceso beta →
+            </a>
+          </div>
+        </div>
+
+        <div class="pf-visual">
+          <div class="mini-phone">
+            <div class="mini-phone-screen">
+              <div class="mp-header">
+                <div class="mp-logo">Hiper<span>meta</span></div>
+                <div class="mp-dot"></div>
+              </div>
+              <div class="mp-card">
+                <div class="mp-label">Rutina IA</div>
+                <div class="mp-val">Espalda</div>
+                <div class="mp-sub">Calistenia · 6 ejercicios</div>
+              </div>
+              <div class="mp-grid">
+                <div class="mp-mini"><div class="mp-mini-label">IMC</div><div class="mp-mini-val">22.4</div></div>
+                <div class="mp-mini"><div class="mp-mini-label">Kcal</div><div class="mp-mini-val">2,100</div></div>
+                <div class="mp-mini"><div class="mp-mini-label">Proteína</div><div class="mp-mini-val">160g</div></div>
+                <div class="mp-mini"><div class="mp-mini-label">Racha</div><div class="mp-mini-val">7d 🔥</div></div>
+              </div>
+              <div class="mp-card">
+                <div class="mp-label">Progreso semanal</div>
+                <div class="mp-progress">
+                  <div class="mp-progress-label">Entrenamientos · 4/5</div>
+                  <div class="mp-bar-bg"><div class="mp-bar-fill" style="width:80%"></div></div>
+                </div>
+                <div class="mp-progress" style="margin-top:6px">
+                  <div class="mp-progress-label">Proteína hoy · 130/160g</div>
+                  <div class="mp-bar-bg"><div class="mp-bar-fill" style="width:65%"></div></div>
+                </div>
+              </div>
+              <div class="mp-cta">✦ Generar plan con IA</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid projects -->
+      <div class="projects-grid">
+
+        <!-- Python -->
+        <div class="project-card fade-up delay-1">
+          <div class="pc-icon" style="background:#FEF3C7">🐍</div>
+          <h3 class="pc-title">Automatización con Python</h3>
+          <p class="pc-desc">
+            Scripts de automatización y resolución de problemas algorítmicos
+            desarrollados durante los primeros semestres. Enfocados en eficiencia
+            y estructuras de datos clásicas.
+          </p>
+          <ul class="pc-features">
+            <li>Implementación de pilas, colas y listas enlazadas</li>
+            <li>Automatización de tareas repetitivas de procesamiento de datos</li>
+            <li>Resolución de problemas matemáticos con algoritmos propios</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">Algoritmos</span>
+            <span class="tech-tag">Estructuras de datos</span>
+          </div>
+          <div style="margin-top:20px">
+            <a href="https://github.com/Ethan8a" target="_blank" class="link-btn link-btn-ghost">
+              Ver código →
+            </a>
+          </div>
+        </div>
+
+        <!-- Web -->
+        <div class="project-card fade-up delay-2">
+          <div class="pc-icon" style="background:#EDE9FE">🌐</div>
+          <h3 class="pc-title">Componentes Web Interactivos</h3>
+          <p class="pc-desc">
+            Colección de componentes front-end desarrollados para entornos
+            educativos, con énfasis en usabilidad, accesibilidad e interacción
+            fluida con el usuario.
+          </p>
+          <ul class="pc-features">
+            <li>Componentes dinámicos con JavaScript vanilla</li>
+            <li>Diseño responsive con CSS Grid y Flexbox</li>
+            <li>Integración de conceptos cliente-servidor</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">HTML5</span>
+            <span class="tech-tag">CSS3</span>
+          </div>
+          <div style="margin-top:20px">
+            <a href="https://github.com/Ethan8a" target="_blank" class="link-btn link-btn-ghost">
+              Ver código →
+            </a>
+          </div>
+        </div>
+
+        <!-- Portafolio (este mismo) -->
+        <div class="project-card fade-up delay-3">
+          <div class="pc-icon" style="background:#D1FAE5">✦</div>
+          <h3 class="pc-title">Portafolio Web Personal</h3>
+          <p class="pc-desc">
+            Este sitio. Diseñado y desarrollado desde cero con HTML, CSS y
+            JavaScript. Sin frameworks externos, completamente personalizado
+            con diseño responsivo y animaciones fluidas.
+          </p>
+          <ul class="pc-features">
+            <li>Single-page application con animaciones de scroll</li>
+            <li>Diseño responsivo mobile-first</li>
+            <li>Mockup interactivo de Hipermeta en CSS puro</li>
+          </ul>
+          <div class="tech-tags">
+            <span class="tech-tag">HTML5</span>
+            <span class="tech-tag">CSS3</span>
+            <span class="tech-tag">JavaScript</span>
+          </div>
+          <div style="margin-top:20px">
+            <a href="https://github.com/Ethan8a" target="_blank" class="link-btn link-btn-ghost">
+              Ver código →
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SOBRE MÍ ───────────────────────────────────────────────────────── -->
+  <section id="sobre-mi">
+    <div class="container sobre-inner">
+      <div class="sobre-text fade-up">
+        <div class="section-label">Sobre mí</div>
+        <h2 class="section-title">Desarrollador en formación,<br>mentalidad de producto</h2>
+        <p class="section-desc">
+          Estudio Ingeniería en Sistemas Computacionales en el ITSTB (Tierra Blanca, Veracruz)
+          y me especializo en desarrollo Android nativo. Me apasiona construir productos
+          completos — desde la base de datos hasta la interfaz — con código limpio y
+          arquitectura escalable. Aprendo de forma autónoma y aplico lo aprendido
+          directamente en proyectos reales como Hipermeta.
+        </p>
+      </div>
+      <div class="sobre-cards fade-up delay-2">
+        <div class="sobre-card">
+          <div class="sobre-card-num">8.°</div>
+          <div class="sobre-card-label">Semestre ISC</div>
+        </div>
+        <div class="sobre-card">
+          <div class="sobre-card-num">8.7</div>
+          <div class="sobre-card-label">Promedio</div>
+        </div>
+        <div class="sobre-card">
+          <div class="sobre-card-num">15+</div>
+          <div class="sobre-card-label">Módulos en Hipermeta</div>
+        </div>
+        <div class="sobre-card">
+          <div class="sobre-card-num">3+</div>
+          <div class="sobre-card-label">Años programando</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HABILIDADES ───────────────────────────────────────────────────── -->
+  <section id="habilidades">
+    <div class="container">
+      <div class="fade-up">
+        <div class="section-label">Habilidades</div>
+        <h2 class="section-title">Stack tecnológico</h2>
+        <p class="section-desc">
+          Tecnologías que uso en proyectos reales, no solo en tutoriales.
+        </p>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-category fade-up delay-1">
+          <div class="skill-cat-header">
+            <div class="skill-cat-icon" style="background:#EFF6FF">📱</div>
+            <div class="skill-cat-title">Desarrollo Android</div>
+          </div>
+          <div class="skill-pills">
+            <span class="skill-pill highlight">Kotlin</span>
+            <span class="skill-pill highlight">Android Studio</span>
+            <span class="skill-pill">MVVM</span>
+            <span class="skill-pill">Coroutines</span>
+            <span class="skill-pill">RecyclerView</span>
+            <span class="skill-pill">Room</span>
+            <span class="skill-pill">DiffUtil</span>
+            <span class="skill-pill">Jetpack</span>
+            <span class="skill-pill">Material Design 3</span>
+          </div>
+        </div>
+
+        <div class="skill-category fade-up delay-2">
+          <div class="skill-cat-header">
+            <div class="skill-cat-icon" style="background:#FEF3C7">☁️</div>
+            <div class="skill-cat-title">Backend &amp; Cloud</div>
+          </div>
+          <div class="skill-pills">
+            <span class="skill-pill highlight">Firebase Auth</span>
+            <span class="skill-pill highlight">Supabase</span>
+            <span class="skill-pill">Firestore</span>
+            <span class="skill-pill">Supabase Storage</span>
+            <span class="skill-pill">PostgreSQL</span>
+            <span class="skill-pill">Cloud Messaging</span>
+            <span class="skill-pill">REST APIs</span>
+          </div>
+        </div>
+
+        <div class="skill-category fade-up delay-3">
+          <div class="skill-cat-header">
+            <div class="skill-cat-icon" style="background:#EDE9FE">🤖</div>
+            <div class="skill-cat-title">Inteligencia Artificial</div>
+          </div>
+          <div class="skill-pills">
+            <span class="skill-pill highlight">Google Gemini AI</span>
+            <span class="skill-pill">Gemini Vision</span>
+            <span class="skill-pill">Prompting</span>
+            <span class="skill-pill">Integración LLMs</span>
+            <span class="skill-pill">TheMealDB API</span>
+          </div>
+        </div>
+
+        <div class="skill-category fade-up delay-4">
+          <div class="skill-cat-header">
+            <div class="skill-cat-icon" style="background:#D1FAE5">⚙️</div>
+            <div class="skill-cat-title">Lenguajes &amp; Herramientas</div>
+          </div>
+          <div class="skill-pills">
+            <span class="skill-pill highlight">Kotlin</span>
+            <span class="skill-pill">Python</span>
+            <span class="skill-pill">JavaScript</span>
+            <span class="skill-pill">SQL</span>
+            <span class="skill-pill">HTML / CSS</span>
+            <span class="skill-pill">Git</span>
+            <span class="skill-pill">Postman</span>
+            <span class="skill-pill">VS Code</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACTO ──────────────────────────────────────────────────────── -->
+  <section id="contacto">
+    <div class="container contact-inner">
+      <div class="fade-up">
+        <div class="section-label">Contacto</div>
+        <h2 class="section-title">¿Hablamos?</h2>
+        <p class="section-desc">
+          Estoy abierto a pasantías, proyectos colaborativos o simplemente
+          conectar con otros desarrolladores. Escríbeme, respondo rápido.
+        </p>
+      </div>
+      <div class="contact-cards fade-up delay-1">
+        <a href="mailto:carbajaldaniel450@gmail.com" class="contact-card">
+          <div class="contact-card-icon" style="background:#EFF6FF; font-size:22px">✉️</div>
+          <div class="contact-card-text">
+            <div class="contact-card-label">Email</div>
+            <div class="contact-card-value">carbajaldaniel450@gmail.com</div>
+          </div>
+        </a>
+        <a href="https://github.com/Ethan8a" target="_blank" rel="noopener" class="contact-card">
+          <div class="contact-card-icon" style="background:#F8FAFC; font-size:22px">⌥</div>
+          <div class="contact-card-text">
+            <div class="contact-card-label">GitHub</div>
+            <div class="contact-card-value">github.com/Ethan8a</div>
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/ethan-ochoa-2a6443341" target="_blank" rel="noopener" class="contact-card">
+          <div class="contact-card-icon" style="background:#EFF6FF; font-size:22px; color:#0077B5">in</div>
+          <div class="contact-card-text">
+            <div class="contact-card-label">LinkedIn</div>
+            <div class="contact-card-value">Ethan Ochoa Carbajal</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ────────────────────────────────────────────────────────── -->
+  <footer>
+    <span>Ethan Daniel Ochoa Carbajal</span> · Tierra Blanca, Veracruz · 2026
+    <br>Diseñado y desarrollado de forma independiente
+  </footer>
+
+  <script>
+    // Scroll animations
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Mobile menu
+    function toggleMenu() {
+      const nav = document.getElementById('navLinks');
+      nav.classList.toggle('open');
+    }
+
+    // Close menu on link click
+    document.querySelectorAll('#navLinks a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.getElementById('navLinks').classList.remove('open');
+      });
+    });
+
+    // Nav shadow on scroll
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('nav');
+      nav.style.boxShadow = window.scrollY > 20
+        ? '0 2px 20px rgba(0,0,0,.08)'
+        : 'none';
+    });
+  </script>
+
+</body>
+</html>
